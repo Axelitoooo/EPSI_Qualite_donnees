@@ -1,0 +1,23 @@
+checks for nyc_raw:
+  # Vérification que le schéma contient les colonnes attendues
+  - schema:
+      warn:
+        when required column missing: [
+          Airport_fee, tpep_pickup_datetime, tpep_dropoff_datetime,
+          passenger_count, trip_distance, RatecodeID, VendorID,
+          PULocationID, DOLocationID, payment_type, fare_amount,
+          extra, mta_tax, tip_amount, tolls_amount,
+          improvement_surcharge, total_amount, congestion_surcharge,
+          store_and_fwd_flag
+        ]
+
+  # Vérification du nombre de lignes
+  - row_count > 0
+
+  # Vérification des valeurs minimales pour certaines colonnes
+  - min(fare_amount) > -1
+  - min(trip_distance) >= 0
+
+  # Vérification de la nullité
+  - missing_count(tpep_pickup_datetime) = 0
+  - missing_count(tpep_dropoff_datetime) = 0
